@@ -14,8 +14,8 @@ describe ImdbMovie do
       @imdb_movie.send(:document)
     end
   
-    it "should get director" do
-      @imdb_movie.director.should == 'Steven Spielberg'
+    it "should get director(s)" do
+      @imdb_movie.directors.should include('Steven Spielberg')
     end
   
     it "should get the poster" do
@@ -120,8 +120,8 @@ describe ImdbMovie do
       @imdb_movie.send(:document)
     end
   
-    it "should get director" do
-      @imdb_movie.director.should == 'Javier Setó'
+    it "should get director(s)" do
+      @imdb_movie.directors.should include('Javier Setó')
     end
   
     it "should not get the poster" do

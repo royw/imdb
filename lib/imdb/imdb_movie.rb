@@ -8,8 +8,8 @@ class ImdbMovie
     @title = title
   end
   
-  def director
-    document.at("h5[text()='Director:'] ~ a").innerHTML.strip.unescape_html rescue nil
+  def directors
+    document.search("h5[text()^='Director'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
   end
   
   def poster
@@ -21,7 +21,7 @@ class ImdbMovie
   end
   
   def writers
-    document.search("h5[text()^='Writers'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
+    document.search("h5[text()^='Writer'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
   end
   
   def release_date
