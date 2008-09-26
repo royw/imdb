@@ -13,7 +13,8 @@ class ImdbMovie
   end
   
   def poster
-    document.at("a[@name='poster'] img")['src'] rescue nil
+    poster_url = document.at("a[@name='poster']")['href']
+    Hpricot(open("#{File.join("http://www.imdb.com/", document.at("a[@name='poster']")['href'])}").read).at("table#principal tr td img")['src'] rescue nil
   end
   
   def cast_members
