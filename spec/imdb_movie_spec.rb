@@ -13,6 +13,10 @@ describe ImdbMovie do
       @imdb_movie.should_receive(:open).with("http://www.imdb.com/title/tt0097576/").and_return(open("#{$samples_dir}/sample_movie.html"))
       @imdb_movie.send(:document)
     end
+    
+    it "should get the title" do
+      @imdb_movie.title.should == "Indiana Jones and the Last Crusade"
+    end
   
     it "should get director(s)" do
       @imdb_movie.directors.should include('Steven Spielberg')
@@ -117,6 +121,10 @@ describe ImdbMovie do
     it "should query IMDB url" do
       @imdb_movie.should_receive(:open).with("http://www.imdb.com/title/tt0054961/").and_return(open("#{$samples_dir}/sample_incomplete_movie.html"))
       @imdb_movie.send(:document)
+    end
+    
+    it "should get the title" do
+      @imdb_movie.title.should == "Han robado una estrella"
     end
   
     it "should get director(s)" do

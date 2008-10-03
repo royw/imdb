@@ -5,7 +5,11 @@ class ImdbMovie
   def initialize(id, title = nil)
     @id = id
     @url = "http://www.imdb.com/title/tt#{self.id}/"
-    @title = title
+    # @title = title
+  end
+  
+  def title
+    document.at("div#tn15title h1").innerHTML.split('<span>').first.strip.unescape_html rescue nil    
   end
   
   def directors
@@ -18,7 +22,15 @@ class ImdbMovie
   end
   
   def cast_members
-    document.search("table.cast td.nm a").map { |link| link.innerHTML.strip.unescape_html } rescue []
+    # document.search("table.cast td.nm a").map { |link| link.innerHTML.strip.unescape_html } rescue []
+    document.search("table.cast tr").inject([]) do |result, row|
+      a = row.search("td.nm a").innerHTML.strip.unescape_html
+      c = row.search("td.char a").innerHTML.strip.unescape_html
+      if c.empty?
+        c = row.search("td.char").innerHTML.strip.unescape_html
+      end
+      result << [a,c]
+    end
   end
   
   def writers
@@ -75,11 +87,16 @@ class ImdbMovie
   def get_data
     update_title
   end
+  
+  def title2
+    document.at("div#tn15title h1").innerHTML.split('<span>').first.unescape_html rescue nil
+  end
     
   private
   
   def update_title
-    @title = document.at("h1").innerHTML.split('<span').first.strip.unescape_html rescue nil    
+    # @title = document.at("h1").innerHTML.split('<span').first.strip.unescape_html rescue nil    
+    document.at("div#tn15title h1").innerHTML.split('<span>').first.unescape_html rescue nil
   end
   
   def document
