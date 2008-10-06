@@ -5,7 +5,7 @@ describe ImdbMovie do
   describe 'Indiana Jones and the Last Crusade' do
 
     before(:each) do
-      @imdb_movie = ImdbMovie.new('0097576', 'Indiana Jones and the Last Crusade')
+      @imdb_movie = ImdbMovie.new('0097576')
       @imdb_movie.stub!(:open).and_return(open("#{$samples_dir}/sample_movie.html"))
     end
   
@@ -22,16 +22,20 @@ describe ImdbMovie do
       @imdb_movie.directors.should include('Steven Spielberg')
     end
   
-    it "should get the poster" do
-      @imdb_movie.poster.should == 'http://ia.media-imdb.com/images/M/MV5BMTkzODA5ODYwOV5BMl5BanBnXkFtZTcwMjAyNDYyMQ@@._V1._SX216_SY316_.jpg'
+    it "should get the poster url" do
+      @imdb_movie.poster_url.should == File.join(@imdb_movie.url, "/rg/action-box-title/primary-photo/media/rm1203608832/tt0097576")
+    end
+    
+    it "should return an ImdbImage object" do
+      @imdb_movie.poster.should be_instance_of(ImdbImage)
     end
   
     it "should get cast members" do
-      @imdb_movie.cast_members.should include('Harrison Ford')
-      @imdb_movie.cast_members.should include('Sean Connery')
-      @imdb_movie.cast_members.should include('Denholm Elliott')
-      @imdb_movie.cast_members.should include('Alison Doody')
-      @imdb_movie.cast_members.should include('John Rhys-Davies')
+      @imdb_movie.cast_members.should include(['Harrison Ford', 'Indiana Jones'])
+      @imdb_movie.cast_members.should include(['Sean Connery', 'Professor Henry Jones'])
+      @imdb_movie.cast_members.should include(['Denholm Elliott', 'Dr. Marcus Brody'])
+      @imdb_movie.cast_members.should include(['Alison Doody', 'Dr. Elsa Schneider'])
+      @imdb_movie.cast_members.should include(['John Rhys-Davies', 'Sallah'])
       @imdb_movie.cast_members.should_not include('more')
     end
   
@@ -43,7 +47,7 @@ describe ImdbMovie do
   
     it "should get the release date" do
       @imdb_movie.release_date.should be_an_instance_of(Date)
-      @imdb_movie.release_date.should == Date.new(1989, 9, 1)
+      @imdb_movie.release_date.should == Date.new(1989, 6, 30)
     end
   
     it "should get the genres" do
@@ -94,27 +98,12 @@ describe ImdbMovie do
       @imdb_movie.aspect_ratio.should == "2.20 : 1"
     end
     
-    describe "title pre-caching & get_data" do
-      
-      it "should have the original title before querying anything" do
-        @imdb_movie.should_not_receive(:open)
-        @imdb_movie.title.should == 'Indiana Jones and the Last Crusade'
-      end
-      
-      it "should have the updated title after calling get_data" do
-        @imdb_movie.should_receive(:open).with("http://www.imdb.com/title/tt0097576/").and_return(open("#{$samples_dir}/sample_movie.html"))
-        @imdb_movie.get_data
-        @imdb_movie.title.should == 'Indiana Jones and the Last Crusade'
-      end
-      
-    end
-    
   end
 
   describe 'Han robado una estrella' do
 
     before(:each) do
-      @imdb_movie = ImdbMovie.new('0054961', 'Han robado una estrella')
+      @imdb_movie = ImdbMovie.new('0054961')
       @imdb_movie.stub!(:open).and_return(open("#{$samples_dir}/sample_incomplete_movie.html"))
     end
   
@@ -136,9 +125,9 @@ describe ImdbMovie do
     end
   
     it "should get cast members" do
-      @imdb_movie.cast_members.should include('Rafaela Aparicio')
-      @imdb_movie.cast_members.should include('Marujita Díaz')
-      @imdb_movie.cast_members.should include('Espartaco Santoni')
+      @imdb_movie.cast_members.should include(['Rafaela Aparicio', ''])
+      @imdb_movie.cast_members.should include(['Marujita Díaz', ''])
+      @imdb_movie.cast_members.should include(['Espartaco Santoni', ''])
       @imdb_movie.cast_members.should_not include('more')
     end
   

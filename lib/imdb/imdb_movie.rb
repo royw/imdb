@@ -2,10 +2,9 @@ class ImdbMovie
   
   attr_accessor :id, :url, :title
   
-  def initialize(id, title = nil)
+  def initialize(id)
     @id = id
     @url = "http://www.imdb.com/title/tt#{self.id}/"
-    # @title = title
   end
   
   def title
@@ -16,9 +15,12 @@ class ImdbMovie
     document.search("h5[text()^='Director'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
   end
   
+  def poster_url
+    File.join(self.url, document.at("a[@name='poster']")['href']) rescue nil
+  end
+  
   def poster
-    poster_url = document.at("a[@name='poster']")['href']
-    Hpricot(open("#{File.join("http://www.imdb.com/", document.at("a[@name='poster']")['href'])}").read).at("table#principal tr td img")['src'] rescue nil
+    ImdbImage.new(poster_url) rescue nil
   end
   
   def cast_members
