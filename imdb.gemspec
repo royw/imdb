@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.files = [
     "lib/imdb/imdb_movie.rb",
     "lib/imdb/imdb_search.rb",
+    "lib/imdb/imdb_image.rb",
     "lib/imdb.rb",
     "lib/string_extensions.rb",
     "README"    
