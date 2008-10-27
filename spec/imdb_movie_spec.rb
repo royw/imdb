@@ -23,7 +23,7 @@ describe ImdbMovie do
     end
   
     it "should get the poster url" do
-      @imdb_movie.poster_url.should == File.join(@imdb_movie.url, "/rg/action-box-title/primary-photo/media/rm1203608832/tt0097576")
+      @imdb_movie.poster_url.should == "/rg/action-box-title/primary-photo/media/rm1203608832/tt0097576"
     end
     
     it "should return an ImdbImage object" do

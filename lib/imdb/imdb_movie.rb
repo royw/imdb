@@ -16,7 +16,9 @@ class ImdbMovie
   end
   
   def poster_url
-    File.join(self.url, document.at("a[@name='poster']")['href']) rescue nil
+    # File.join(self.url, document.at("a[@name='poster']")['href']) rescue nil
+    # File.join("http://www.imdb.com", document.at("a[@name='poster']")['href']) rescue nil
+    document.at("a[@name='poster']")['href'] rescue nil
   end
   
   def poster
