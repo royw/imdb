@@ -1,0 +1,8 @@
+v0.0.6 - search-related fixes and a small enhancement
+(Pull request sent to project author)
+
+* strip duplicate movies from the search results
+* correctly handle searches that result in an exact match
+* add support for retrieving movie year
+
+v0.0.5++ - Forked from http://github.com/porras/imdb/commit/08dd8187958b95543bb745ffadb680790ef55c6d
