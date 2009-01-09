@@ -25,7 +25,7 @@ class ImdbMovie
   end
   
   def writers
-    document.search("h5[text()^='Writers'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
+    document.search("h5[text()^='Writer'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
   end
 
   def year
