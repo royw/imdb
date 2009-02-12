@@ -8,24 +8,48 @@ class ImdbMovie
     @title = title
   end
   
-  def director
-    document.at("h5[text()='Director:'] ~ a").innerHTML.strip.unescape_html rescue nil
+  def title
+    document.at("div#tn15title h1").innerHTML.split('<span>').first.strip.unescape_html rescue nil    
   end
   
-  def poster
+  def directors
+    document.search("h5[text()^='Director'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
+  end
+  
+  def poster_url
+    document.at("a[@name='poster']")['href'] rescue nil
+  end
+  
+  def tiny_poster_url
     document.at("a[@name='poster'] img")['src'] rescue nil
   end
   
+  def poster
+    ImdbImage.new(poster_url) rescue nil
+  end
+  
   def rating
-    document.at("b[text()='User Rating:'] ~ b").innerHTML.strip.unescape_html.split('/').first.to_f rescue nil
+    document.at("h5[text()='User Rating:'] ~ b").innerHTML.strip.unescape_html.split('/').first.to_f rescue nil
   end
   
   def cast_members
-    document.search("table.cast td.nm a").map { |link| link.innerHTML.strip.unescape_html } rescue []
+    # document.search("table.cast td.nm a").map { |link| link.innerHTML.strip.unescape_html } rescue []
+    document.search("table.cast tr").inject([]) do |result, row|
+      a = row.search("td.nm a").innerHTML.strip.unescape_html
+      c = row.search("td.char a").innerHTML.strip.unescape_html
+      if c.empty?
+        c = row.search("td.char").innerHTML.strip.unescape_html
+      end
+      result << [a,c]
+    end
   end
   
   def writers
     document.search("h5[text()^='Writers'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
+  end
+  
+  def year
+    document.search('a[@href^="/Sections/Years/"]').innerHTML
   end
   
   def release_date
@@ -79,10 +103,15 @@ class ImdbMovie
     update_title
   end
     
+  def title2
+    document.at("div#tn15title h1").innerHTML.split('<span>').first.unescape_html rescue nil
+  end
+    
   private
   
   def update_title
     @title = document.at("h1").innerHTML.split('<span').first.strip.unescape_html rescue nil    
+    #document.at("div#tn15title h1").innerHTML.split('<span>').first.unescape_html rescue nil
   end
   
   def document
