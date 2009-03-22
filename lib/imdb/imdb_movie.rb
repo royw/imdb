@@ -44,6 +44,10 @@ class ImdbMovie
   def writers
     document.search("h5[text()^='Writer'] ~ a").map { |link| link.innerHTML.strip.unescape_html }.reject { |w| w == 'more' }.uniq rescue []
   end
+
+  def year
+    document.search('a[@href^="/Sections/Years/"]').innerHTML
+  end
   
   def release_date
     date = document.search("//h5[text()^='Release Date']/..").innerHTML[/^\d{1,2} \w+ \d{4}/]
