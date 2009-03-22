@@ -1,11 +1,20 @@
+• Added ability to get large poster via ImdbImage class
+• Now retrieves character name along with actor name
 
 ImdbMovie
 
 ImdbMovie Indiana Jones and the Last Crusade
 - should query IMDB url
-- should get director
-- should get the poster
-- should get the rating
+- should get the image
+
+ImdbMovie
+
+ImdbMovie Indiana Jones and the Last Crusade
+- should query IMDB url
+- should get the title
+- should get director(s)
+- should get the poster url
+- should return an ImdbImage object
 - should get cast members
 - should get the writers
 - should get the release date
@@ -20,13 +29,10 @@ ImdbMovie Indiana Jones and the Last Crusade
 - should get the tagline
 - should get the aspect ratio
 
-ImdbMovie Indiana Jones and the Last Crusade title pre-caching & get_data
-- should have the original title before querying anything
-- should have the updated title after calling get_data
-
 ImdbMovie Han robado una estrella
 - should query IMDB url
-- should get director
+- should get the title
+- should get director(s)
 - should not get the poster
 - should get cast members
 - should get the writers
@@ -47,14 +53,10 @@ ImdbSearch Indiana Jones
 
 ImdbSearch Indiana Jones movies
 - should be a collection of ImdbMovie instances
-- should include 'Indiana Jones and the Last Crusade'
-- should have titles
-- should not have titles with HTML tags
 
 ImdbSearch searches with potential encoding issues
 
 ImdbSearch searches with potential encoding issues movies
-- should include 'Misión en Marbella'
 
 String
 
@@ -65,6 +67,3 @@ String unescape_html
 String strip_tags
 - should strip HTML tags
 
-Finished in 3.044303 seconds
-
-42 examples, 0 failures

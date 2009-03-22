@@ -10,7 +10,7 @@ class ImdbSearch
     @movies ||= document.search('a[@href^="/title/tt"]').reject do |element|
       element.innerHTML.strip_tags.empty?
     end.map do |element|
-      ImdbMovie.new(element['href'][/\d+/], element.innerHTML.strip_tags.unescape_html)
+      ImdbMovie.new(element['href'][/\d+/])
     end
   end
 
