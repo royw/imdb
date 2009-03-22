@@ -25,9 +25,10 @@ describe ImdbSearch do
         end
       end
 
-      # it "should include 'Indiana Jones and the Last Crusade'" do
-      #   @imdb_search.movies.map { |m| m.title }.should include('Indiana Jones and the Last Crusade')
-      # end
+      it "should include 'Indiana Jones and the Last Crusade'" do
+        @imdb_search.movies.map { |m| m.title }.should include('Indiana Jones and the Last Crusade')
+      end
+
 
       it "should not have titles with HTML tags" do
         @imdb_search.movies.each do |movie|
