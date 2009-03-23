@@ -1,11 +1,33 @@
 class ImdbMovie
+  include Comparable
 
-  attr_accessor :id, :url#, :title
+  attr_reader :id, :url#, :title
 
   def initialize(id, title = nil)
     @id = id
-    @url = "http://www.imdb.com/title/tt#{self.id}/"
+#     @url = "http://www.imdb.com/title/tt#{@id}/"
+    @url = sprintf(ImdbMovie::url_format, @id.to_s)
     @title = title
+  end
+
+  # this is intended to be stubed by rspec where it
+  # should return the path to the cached html file
+  # Note, the returned String should have one '%s'
+  # which will replaced by sprintf with @id.to_s
+  def self.url_format
+    'http://www.imdb.com/title/tt%s/'
+  end
+
+  # this is intended to be stubed by rspec where it
+  # should return true.
+  def self.use_html_cache
+    false
+  end
+
+  # add comparator so Arrays containing ImdbMovie objects
+  # can use uniq()
+  def <=>(other)
+    @id <=> other.id
   end
 
   def title
@@ -110,6 +132,52 @@ class ImdbMovie
 #     document.at("div#tn15title h1").innerHTML.split('<span>').first.unescape_html rescue nil
 #   end
 
+  # return the raw title
+  def raw_title
+    document.at("h1").innerText
+  end
+
+  # is this a video game as indicated by a '(VG)' in the raw title?
+  def video_game?
+    raw_title =~ /\(VG\)/
+  end
+
+  # find the release year
+  # Note, this is needed because not all entries on IMDB have a full
+  # release date as parsed by release_date.
+  def release_year
+    document.search("//h5[text()^='Release Date']/..").innerHTML[/\d{4}/]
+  end
+
+  # return an Array of Strings containing AKA titles
+  def also_known_as
+    el = document.search("//h5[text()^='Also Known As:']/..").at('h5')
+    aka = []
+    while(!el.nil?)
+      aka << el.to_s unless el.elem?
+      el = el.next
+    end
+    aka.collect!{|a| a.gsub(/\([^\)]*\)/, '').strip}
+    aka.uniq!
+    aka.compact!
+    aka.select{|a| !a.empty?}
+  end
+
+  # The MPAA rating, i.e. "PG-13"
+  def mpaa
+    document.search("//h5[text()^='MPAA']/..").text.gsub('MPAA:', '').strip rescue nil
+  end
+
+  # older films may not have MPAA ratings but usually have a certification.
+  # return a hash with country abbreviations for keys and the certification string for the value
+  # example:  {'USA' => 'Approved'}
+  def certifications
+    cert_hash = {}
+    certs = document.search("h5[text()='Certification:'] ~ a[@href*=/List?certificates']").map { |link| link.innerHTML.strip } rescue []
+    certs.each { |line| cert_hash[$1] = $2 if line =~ /(.*):(.*)/ }
+    cert_hash
+  end
+
   private
 
 #   def update_title
@@ -117,8 +185,40 @@ class ImdbMovie
 #     #document.at("div#tn15title h1").innerHTML.split('<span>').first.unescape_html rescue nil
 #   end
 
+  MAX_ATTEMPTS = 3
+  SECONDS_BETWEEN_RETRIES = 1.0
+
+  # Fetch the document with retry to handle the occasional glitches
   def document
-    @document ||= Hpricot(open(self.url).read)
+    attempts = 0
+    begin
+      html = open(self.url).read
+      @document ||= Hpricot(html)
+      cache_html_files(html) if ImdbMovie::use_html_cache
+    rescue Exception => e
+      attempts += 1
+      if attempts > MAX_ATTEMPTS
+        raise
+      else
+        sleep SECONDS_BETWEEN_RETRIES
+        retry
+      end
+    end
+    @document
+  end
+
+  # this is used to save imdb pages so they may be used by rspec
+  def cache_html_files(html)
+    begin
+      filespec = self.url.gsub(/^http:\//, 'spec/samples').gsub(/\/$/, '.html')
+      unless File.exist?(filespec)
+        puts filespec
+        File.mkdirs(File.dirname(filespec))
+        File.open(filespec, 'w') { |f| f.puts html }
+      end
+    rescue Exception => eMsg
+      puts eMsg.to_s
+    end
   end
 
 end

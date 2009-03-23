@@ -87,4 +87,53 @@ describe ImdbSearch do
 
   end
 
+  describe 'searches that match on AKA title' do
+
+    before(:each) do
+      @imdb_search = ImdbSearch.new('Who Am I?', true)
+      @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_who_am_i_search.html"))
+      ImdbMovie.stub!(:url_format).and_return("#{$samples_dir}/www.imdb.com/title/tt%s.html")
+      ImdbMovie.stub!(:use_html_cache).and_return(true)
+    end
+
+    describe "movies" do
+
+      it "should have multiple movies" do
+        @imdb_search.movies.size.should > 1
+      end
+
+      it "should find id tt0127357" do
+        @imdb_search.find_id == 'tt0127357'
+      end
+
+      it "should have only one movie from 1998" do
+        films = @imdb_search.movies.select{|m| m.year.to_i == 1998}
+        films.length.should == 1
+      end
+    end
+
+  end
+
+  # this is the failure test for AKA matching
+  describe 'searches that match on AKA title but without search_aka enabled' do
+    before(:each) do
+      @imdb_search = ImdbSearch.new('Who Am I?', false)
+      @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_who_am_i_search.html"))
+      ImdbMovie.stub!(:url_format).and_return("#{$samples_dir}/www.imdb.com/title/tt%s.html")
+      ImdbMovie.stub!(:use_html_cache).and_return(true)
+    end
+
+    describe "movies" do
+
+      it "should have multiple movies" do
+        @imdb_search.movies.size.should > 1
+      end
+
+      it "should have 2 movies from 1998" do
+        films = @imdb_search.movies.select{|m| m.year.to_i == 1998}
+        films.length.should == 2
+      end
+    end
+  end
+
 end
