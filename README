@@ -52,6 +52,15 @@ ImdbSearch search that redirects to the lone matching movie movies
 - should have the correct ID
 - should have the correct title
 
+ImdbSearch searches that match on AKA title movies
+- should have multiple movies
+- should find id tt0127357
+- should have only one movie from 1998
+
+ImdbSearch searches that match on AKA title but without search_aka enabled movies
+- should have multiple movies
+- should have 2 movies from 1998
+
 ImdbMovie Indiana Jones and the Last Crusade
 - should query IMDB url
 - should get the image
@@ -63,6 +72,6 @@ String unescape_html
 String strip_tags
 - should strip HTML tags
 
-Finished in 2.338125 seconds
+Finished in 5.222681 seconds
 
-48 examples, 0 failures
+53 examples, 0 failures

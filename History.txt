@@ -1,0 +1,90 @@
+0.0.7 royw-imdb
+    added Also Known As (aka) title matching
+    added ImdbSearch.find_id
+    added ImdbMovie.release_year
+    added ImdbMovie.raw_title
+    added ImdbMovie.video_game?
+    added ImdbMovie.also_known_as
+    added ImdbMovie.mpaa
+    added ImdbMovie.certifications
+
+    cleaned up merges, spec now passes
+    Merge branch 'master' of git://github.com/caleb/imdb
+    merged jasonrudolph branch
+    merged kieranj branch
+    forked from porras-imdb
+
+0.0.6
+    Merge patch from different fork
+    Correctly parse movies with only one writer
+    Add CHANGELOG and bump version to v0.0.6
+    Add support for searches that result in an exact match
+    Add method to retrieve movie year ...
+      - We could already retrieve the release date, but not all movies
+        have a release date (e.g., http://www.imdb.com/title/tt0464826/).
+      - All movies seem to have a year.
+    Strip duplicate movies from the search results
+    updated gemspec
+    changed poster url
+    Updated README
+    Added method to retrieve user rating
+    ImdbImage
+    now returns movie title instead of page title
+    now fetches large poster from different url
+    now works for multiple directors
+    Revert "Revert "Revert "Revert "default rake task""""
+
+    This reverts commit ed13a2fc544a0b9bbb2276a6ab38bc6a049c5972.
+    Revert "Revert "Revert "default rake task"""
+
+    This reverts commit b2114e2b342e11d3ad9bf8e857d2179d254ecf4c.
+    Revert "Revert "default rake task""
+
+    This reverts commit c662da7f4de5ad510ce706d38de1606f08b211d3.
+    Revert "default rake task"
+
+    This reverts commit 25dcceb4ba63f028b9683f7841b831b96db4d3f1.
+    default rake task
+    Dependencies on gemspec
+    Gitignoring *.gem
+    Uses IMDB to search because of partial matches (which Google doesn't find)
+    Doc updated + Gem version increment
+    Testing encoding issues
+    ImdbMovie#aspect_ratio
+    ImdbMovie#tagline
+    Rake task for incrementing the gem version
+    Small refactorization & added ImdbMovie#get_data
+    Using Google for searching
+    Included GemSpec
+    Updated README
+    Fixed encoding problems
+    String Extensions to unescape & recode HTML
+    - Testing against incomplete movie
+    - Handling of unkwnown data
+    - Some specs failing because of encodings
+    ImdbSearch#movies spec
+    Small refactoring
+    File reorganization
+    File reorganization
+    Small spec refactorization
+    ImdbMovie#plot
+    ImdbMovie#release_date
+    ImdbMovie#length
+    README with specs
+    ImdbMovie#company + ImdbMovie#photos
+    ImdbMovie#color
+    ImdbMovie#languages
+    ImdbMovie#countries + small fixes
+    ImdbMovie#genres
+    ImdbMovie#writers
+    ImdbMovie#cast_members
+    Specified ImdbMovie (and some implementation, but there are pending issues)
+    Some fixes
+    Git ignores
+    Updated paths
+    Directory organization
+    Specs refactoring
+    Specified ImdbSearch
+    Some tests & fixes
+    Hpricot searching
+    First version

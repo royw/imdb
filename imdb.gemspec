@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'imdb'
-  s.version = '0.0.6'
+  s.version = '0.0.7'
   s.summary = 'Internet Movie DataBase'
   s.authors = [ 'Sergio Gil' ]
   s.email = 'sgilperez@gmail.com'
@@ -11,7 +11,9 @@ Gem::Specification.new do |s|
     "lib/imdb/imdb_search.rb",
     "lib/imdb/imdb_image.rb",
     "lib/imdb.rb",
+    "lib/file_extensions.rb",
+    "lib/object_extensions.rb",
     "lib/string_extensions.rb",
-    "README"    
+    "README"
   ]
 end
