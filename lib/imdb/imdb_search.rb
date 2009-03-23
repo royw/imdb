@@ -67,10 +67,6 @@ class ImdbSearch
     (t1.gsub('more at imdbpro ?', '') == t2)
   end
 
-  def movie(id,title)
-    ImdbMovie.new(id, title)
-  end
-
   private
 
   def document
@@ -85,7 +81,7 @@ class ImdbSearch
   def parse_exact_match_search_results
     id = document.at("a[@name='poster']")['href'][/\d+$/]
     title = document.at("h1").innerHTML.split('<span').first.strip.unescape_html rescue nil
-    [movie(id, title)]
+    [ImdbMovie.new(id, title)]
   end
 
   def parse_multi_movie_search_results
@@ -96,7 +92,7 @@ class ImdbSearch
     end.uniq
 
     films = ids_and_titles.map do |id_and_title|
-      movie(id_and_title[0], id_and_title[1])
+      ImdbMovie.new(id_and_title[0], id_and_title[1])
     end.uniq
 
     if films.length > 1 && @search_akas
