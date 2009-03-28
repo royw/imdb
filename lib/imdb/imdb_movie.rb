@@ -5,8 +5,8 @@ class ImdbMovie
 
   def initialize(id, title = nil)
     @id = id
-#     @url = "http://www.imdb.com/title/tt#{@id}/"
-    @url = sprintf(ImdbMovie::url_format, @id.to_s)
+    @url = "http://www.imdb.com/title/tt#{@id}/"
+#     @url = sprintf(ImdbMovie::url_format, @id.to_s)
     @title = title
   end
 
@@ -14,9 +14,9 @@ class ImdbMovie
   # should return the path to the cached html file
   # Note, the returned String should have one '%s'
   # which will replaced by sprintf with @id.to_s
-  def self.url_format
-    'http://www.imdb.com/title/tt%s/'
-  end
+#   def self.url_format
+#     'http://www.imdb.com/title/tt%s/'
+#   end
 
   # this is intended to be stubed by rspec where it
   # should return true.
@@ -192,9 +192,18 @@ class ImdbMovie
   def document
     attempts = 0
     begin
-      html = open(self.url).read
+      if ImdbMovie::use_html_cache
+        begin
+          filespec = self.url.gsub(/^http:\//, 'spec/samples').gsub(/\/$/, '.html')
+          html = open(filespec).read
+        rescue Exception
+          html = open(self.url).read
+          cache_html_files(html)
+        end
+      else
+        html = open(self.url).read
+      end
       @document ||= Hpricot(html)
-      cache_html_files(html) if ImdbMovie::use_html_cache
     rescue Exception => e
       attempts += 1
       if attempts > MAX_ATTEMPTS
@@ -212,7 +221,7 @@ class ImdbMovie
     begin
       filespec = self.url.gsub(/^http:\//, 'spec/samples').gsub(/\/$/, '.html')
       unless File.exist?(filespec)
-        puts filespec
+        puts "caching #{filespec}"
         File.mkdirs(File.dirname(filespec))
         File.open(filespec, 'w') { |f| f.puts html }
       end

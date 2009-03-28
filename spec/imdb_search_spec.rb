@@ -8,6 +8,7 @@ describe ImdbSearch do
     before(:each) do
       @imdb_search = ImdbSearch.new('indiana jones')
       @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_search.html"))
+      ImdbMovie.stub!(:use_html_cache).and_return(true)
     end
 
     it "should query IMDB url" do
@@ -50,6 +51,7 @@ describe ImdbSearch do
     before(:each) do
       @imdb_search = ImdbSearch.new('some extremely specific search for indiana jones')
       @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_movie.html"))
+      ImdbMovie.stub!(:use_html_cache).and_return(true)
     end
 
     describe "movies" do
@@ -75,6 +77,7 @@ describe ImdbSearch do
     before(:each) do
       @imdb_search = ImdbSearch.new('torrente')
       @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_spanish_search.html"))
+      ImdbMovie.stub!(:use_html_cache).and_return(true)
     end
 
     describe "movies" do
@@ -92,7 +95,6 @@ describe ImdbSearch do
     before(:each) do
       @imdb_search = ImdbSearch.new('Who Am I?', true)
       @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_who_am_i_search.html"))
-      ImdbMovie.stub!(:url_format).and_return("#{$samples_dir}/www.imdb.com/title/tt%s.html")
       ImdbMovie.stub!(:use_html_cache).and_return(true)
     end
 
@@ -119,7 +121,6 @@ describe ImdbSearch do
     before(:each) do
       @imdb_search = ImdbSearch.new('Who Am I?', false)
       @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_who_am_i_search.html"))
-      ImdbMovie.stub!(:url_format).and_return("#{$samples_dir}/www.imdb.com/title/tt%s.html")
       ImdbMovie.stub!(:use_html_cache).and_return(true)
     end
 
@@ -129,11 +130,37 @@ describe ImdbSearch do
         @imdb_search.movies.size.should > 1
       end
 
-      it "should have 2 movies from 1998" do
+      it "should have no movies from 1998 because title is an aka" do
         films = @imdb_search.movies.select{|m| m.year.to_i == 1998}
-        films.length.should == 2
+        films.length.should == 0
       end
     end
+  end
+
+  describe 'searches that match on AKA title "Open Season"' do
+
+    before(:each) do
+      @imdb_search = ImdbSearch.new('Open Season', false)
+      @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_open_season.html"))
+      ImdbMovie.stub!(:use_html_cache).and_return(true)
+    end
+
+    describe "movies" do
+
+      it "should have multiple movies" do
+        @imdb_search.movies.size.should > 1
+      end
+
+      it "should find id tt0400717" do
+        @imdb_search.find_id(:years => [2006]).should == 'tt0400717'
+      end
+
+      it "should have only one movie from 2006" do
+        films = @imdb_search.movies.select{|m| m.year.to_i == 2006}
+        films.length.should == 1
+      end
+    end
+
   end
 
 end

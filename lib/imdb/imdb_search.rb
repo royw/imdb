@@ -17,22 +17,17 @@ class ImdbSearch
   # and the release year.
   def find_id(options={})
     id = nil
-    found_movies = self.movies
-    unless found_movies.nil?
-      desired_movies = found_movies.select do |m|
-        aka = m.also_known_as
-        result = imdb_compare_titles(m.title, aka, @query) && !m.video_game? && !m.release_year.nil?
-        if result
-          unless options[:years].nil?
-            result = options[:years].include?(m.release_year.to_i)
-          end
-        end
-        result
+    found_movies = self.movies.select do |m|
+      result = true
+      unless options[:years].nil?
+        result = options[:years].include?(m.release_year.to_i)
       end
-      ids = desired_movies.collect{|m| m.id}.uniq.compact
-      if ids.length == 1
-        id = "tt#{ids[0]}"
-      end
+      result
+    end
+#     p found_movies.collect{|m| [m.id, m.title, m.year]}
+    ids = found_movies.collect{|m| m.id}.uniq.compact
+    if ids.length == 1
+      id = "tt#{ids[0]}"
     end
     id
   end
@@ -93,14 +88,18 @@ class ImdbSearch
 
     films = ids_and_titles.map do |id_and_title|
       ImdbMovie.new(id_and_title[0], id_and_title[1])
-    end.uniq
+    end.uniq.compact
 
-    if films.length > 1 && @search_akas
-      films = films.select do |m|
-        aka = m.also_known_as
-        imdb_compare_titles(m.title, aka, @query) && !m.video_game?
+    if films.length > 1
+      same_title_films = films.select do |m|
+        aka = (@search_akas ? m.also_known_as : [])
+        !m.video_game? && imdb_compare_titles(m.title, aka, @query)
+      end
+      if same_title_films.size > 0
+        films = same_title_films
       end
     end
+
     films
   end
 
