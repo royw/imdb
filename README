@@ -59,7 +59,12 @@ ImdbSearch searches that match on AKA title movies
 
 ImdbSearch searches that match on AKA title but without search_aka enabled movies
 - should have multiple movies
-- should have 2 movies from 1998
+- should have no movies from 1998 because title is an aka
+
+ImdbSearch searches that match on AKA title "Open Season" movies
+- should have multiple movies
+- should find id tt0400717
+- should have only one movie from 2006
 
 ImdbMovie Indiana Jones and the Last Crusade
 - should query IMDB url
@@ -72,6 +77,6 @@ String unescape_html
 String strip_tags
 - should strip HTML tags
 
-Finished in 5.222681 seconds
+Finished in 19.495014 seconds
 
-53 examples, 0 failures
+56 examples, 0 failures
