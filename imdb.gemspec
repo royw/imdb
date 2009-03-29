@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'imdb'
-  s.version = '0.0.9'
+  s.version = '0.0.10'
   s.summary = 'Internet Movie DataBase'
   s.authors = [ 'Sergio Gil' ]
   s.email = 'sgilperez@gmail.com'

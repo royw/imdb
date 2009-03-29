@@ -77,6 +77,6 @@ String unescape_html
 String strip_tags
 - should strip HTML tags
 
-Finished in 19.495014 seconds
+Finished in 2.751245 seconds
 
 56 examples, 0 failures
