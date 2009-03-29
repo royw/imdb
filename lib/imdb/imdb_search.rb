@@ -5,10 +5,15 @@ class ImdbSearch
   def initialize(query, search_akas=false)
     @query = query
     @search_akas = search_akas
+    @cache = {}
   end
 
   def movies
     @movies ||= parse_movies_from_document
+  end
+
+  def set_cache(cache)
+    @cache = cache
   end
 
   # Find the IMDB ID for the current search title
@@ -62,6 +67,21 @@ class ImdbSearch
     (t1.gsub('more at imdbpro ?', '') == t2)
   end
 
+  def getMovie(id, title)
+    obj = nil
+    unless id.blank?
+      name = id.to_s
+      name += ' ' + title unless title.blank?
+      obj = @cache[name]
+      if obj.nil?
+        obj = ImdbMovie.new(id,title)
+        @cache[name] = obj
+      end
+    end
+    obj
+  end
+
+
   private
 
   def document
@@ -76,7 +96,7 @@ class ImdbSearch
   def parse_exact_match_search_results
     id = document.at("a[@name='poster']")['href'][/\d+$/]
     title = document.at("h1").innerHTML.split('<span').first.strip.unescape_html rescue nil
-    [ImdbMovie.new(id, title)]
+    [getMovie(id, title)]
   end
 
   def parse_multi_movie_search_results
@@ -87,7 +107,7 @@ class ImdbSearch
     end.uniq
 
     films = ids_and_titles.map do |id_and_title|
-      ImdbMovie.new(id_and_title[0], id_and_title[1])
+      getMovie(id_and_title[0], id_and_title[1])
     end.uniq.compact
 
     if films.length > 1
