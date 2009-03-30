@@ -163,4 +163,30 @@ describe ImdbSearch do
 
   end
 
+  describe 'searches that match on AKA title "Meltdown"' do
+
+    before(:each) do
+      @imdb_search = ImdbSearch.new('Meltdown', true)
+      @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_meltdown.html"))
+      ImdbMovie.stub!(:use_html_cache).and_return(true)
+    end
+
+    describe "movies" do
+
+      it "should have multiple movies" do
+        @imdb_search.movies.size.should > 1
+      end
+
+      it "should find id tt0114437" do
+        @imdb_search.find_id(:years => [1995]).should == 'tt0114437'
+      end
+
+      it "should have only one movie from 1995" do
+        films = @imdb_search.movies.select{|m| m.year.to_i == 1995}
+        films.length.should == 1
+      end
+    end
+
+  end
+
 end

@@ -6,17 +6,8 @@ class ImdbMovie
   def initialize(id, title = nil)
     @id = id
     @url = "http://www.imdb.com/title/tt#{@id}/"
-#     @url = sprintf(ImdbMovie::url_format, @id.to_s)
     @title = title
   end
-
-  # this is intended to be stubed by rspec where it
-  # should return the path to the cached html file
-  # Note, the returned String should have one '%s'
-  # which will replaced by sprintf with @id.to_s
-#   def self.url_format
-#     'http://www.imdb.com/title/tt%s/'
-#   end
 
   # this is intended to be stubed by rspec where it
   # should return true.
@@ -124,14 +115,6 @@ class ImdbMovie
     document.search(".media_strip_thumb img").map { |img| img['src'] } rescue []
   end
 
-#   def get_data
-#     update_title
-#   end
-
-#   def title2
-#     document.at("div#tn15title h1").innerHTML.split('<span>').first.unescape_html rescue nil
-#   end
-
   # return the raw title
   def raw_title
     document.at("h1").innerText
@@ -157,10 +140,17 @@ class ImdbMovie
       aka << el.to_s unless el.elem?
       el = el.next
     end
-    aka.collect!{|a| a.gsub(/\([^\)]*\)/, '').strip}
+    aka.collect!{|a| remove_parens(a).strip}
     aka.uniq!
     aka.compact!
     aka.select{|a| !a.empty?}
+  end
+
+  def remove_parens(str)
+    while str =~ /\(.*\)/
+      str.gsub!(/\([^\)\(]*\)/, '')
+    end
+    str
   end
 
   # The MPAA rating, i.e. "PG-13"
