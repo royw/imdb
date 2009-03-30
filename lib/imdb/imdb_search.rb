@@ -113,7 +113,6 @@ class ImdbSearch
     if films.length > 1
       same_title_films = films.select do |m|
         aka = (@search_akas ? m.also_known_as : [])
-        puts "aka => #{aka.inspect}" if @search_akas
         !m.video_game? && imdb_compare_titles(m.title, aka, @query)
       end
       if same_title_films.size > 0
