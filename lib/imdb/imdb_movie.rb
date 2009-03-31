@@ -1,3 +1,6 @@
+require 'yaml'
+require 'xmlsimple'
+
 class ImdbMovie
   include Comparable
 
@@ -166,6 +169,23 @@ class ImdbMovie
     certs = document.search("h5[text()='Certification:'] ~ a[@href*=/List?certificates']").map { |link| link.innerHTML.strip } rescue []
     certs.each { |line| cert_hash[$1] = $2 if line =~ /(.*):(.*)/ }
     cert_hash
+  end
+
+  def to_hash
+    hash = {}
+    [:title, :directors, :poster_url, :tiny_poster_url, :poster, :rating, :cast_members,
+     :writers, :year, :genres, :plot, :tagline, :aspect_ratio, :length, :release_date,
+     :countries, :languages, :color, :company, :photos, :raw_title, :release_year,
+     :also_known_as, :mpaa, :certifications].each {|sym| hash[sym.to_s] = send(sym.to_s)}
+    hash
+  end
+
+  def to_xml
+    XmlSimple.xml_out(to_hash, 'NoAttr' => true, 'RootName' => 'movie')
+  end
+
+  def to_yaml
+    YAML.dump(to_hash)
   end
 
   private

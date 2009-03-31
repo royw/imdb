@@ -106,6 +106,16 @@ describe ImdbMovie do
       @imdb_movie.aspect_ratio.should == "2.20 : 1"
     end
 
+    it "should convert to xml" do
+      xml = @imdb_movie.to_xml
+      xml.should =~ /<year>1989<\/year>/
+    end
+
+    it "should convert to yaml" do
+      yaml = @imdb_movie.to_yaml
+      yaml.should =~ /year: "1989"/
+    end
+
   end
 
   describe 'Han robado una estrella' do
