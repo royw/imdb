@@ -176,7 +176,15 @@ class ImdbMovie
     [:title, :directors, :poster_url, :tiny_poster_url, :poster, :rating, :cast_members,
      :writers, :year, :genres, :plot, :tagline, :aspect_ratio, :length, :release_date,
      :countries, :languages, :color, :company, :photos, :raw_title, :release_year,
-     :also_known_as, :mpaa, :certifications].each {|sym| hash[sym.to_s] = send(sym.to_s)}
+     :also_known_as, :mpaa, :certifications
+    ].each do |sym|
+      begin
+        value = send(sym.to_s)
+        hash[sym.to_s] = value unless value.nil?
+      rescue Exception => e
+        puts "Error getting data for hash for #{sym} - #{e.to_s}"
+      end
+    end
     hash
   end
 

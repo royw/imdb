@@ -2,6 +2,30 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 describe ImdbMovie do
 
+  describe 'Jet Pilot' do
+
+    before(:each) do
+      @imdb_movie = ImdbMovie.new('0050562')
+      @imdb_movie.stub!(:open).and_return(open("#{$samples_dir}/sample_jet_pilot.html"))
+    end
+
+    it "should query IMDB url" do
+      @imdb_movie.should_receive(:open).with("http://www.imdb.com/title/tt0050562/").and_return(open("#{$samples_dir}/sample_jet_pilot.html"))
+      @imdb_movie.send(:document)
+    end
+
+    it "should convert to xml" do
+      xml = @imdb_movie.to_xml
+      xml.should =~ /<year>1957<\/year>/
+    end
+
+    it "should convert to yaml" do
+      yaml = @imdb_movie.to_yaml
+      yaml.should =~ /year: "1957"/
+    end
+
+  end
+
   describe 'Indiana Jones and the Last Crusade' do
 
     before(:each) do
