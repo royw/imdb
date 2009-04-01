@@ -1,4 +1,9 @@
 
+ImdbMovie Jet Pilot
+- should query IMDB url
+- should convert to xml
+- should convert to yaml
+
 ImdbMovie Indiana Jones and the Last Crusade
 - should query IMDB url
 - should get the title
@@ -84,6 +89,6 @@ String unescape_html
 String strip_tags
 - should strip HTML tags
 
-Finished in 3.464305 seconds
+Finished in 3.710128 seconds
 
-61 examples, 0 failures
+64 examples, 0 failures
