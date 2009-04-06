@@ -165,10 +165,17 @@ class ImdbMovie
   # return a hash with country abbreviations for keys and the certification string for the value
   # example:  {'USA' => 'Approved'}
   def certifications
-    cert_hash = {}
-    certs = document.search("h5[text()='Certification:'] ~ a[@href*=/List?certificates']").map { |link| link.innerHTML.strip } rescue []
-    certs.each { |line| cert_hash[$1] = $2 if line =~ /(.*):(.*)/ }
-    cert_hash
+    certs = []
+    cert_set = document.search("h5[text()='Certification:'] ~ a[@href*=/List?certificates']").map { |link| link.innerHTML.strip } rescue []
+    cert_set.each do |line|
+      if line =~ /(.*):(.*)/
+        cert_hash = {}
+        cert_hash['country'] = $1
+        cert_hash['rating'] = $2
+        certs << cert_hash
+      end
+    end
+    certs
   end
 
   def to_hash
@@ -210,18 +217,20 @@ class ImdbMovie
   def document
     attempts = 0
     begin
-      if ImdbMovie::use_html_cache
-        begin
-          filespec = self.url.gsub(/^http:\//, 'spec/samples').gsub(/\/$/, '.html')
-          html = open(filespec).read
-        rescue Exception
+      if @document.nil?
+        if ImdbMovie::use_html_cache
+          begin
+            filespec = self.url.gsub(/^http:\//, 'spec/samples').gsub(/\/$/, '.html')
+            html = open(filespec).read
+          rescue Exception
+            html = open(self.url).read
+            cache_html_files(html)
+          end
+        else
           html = open(self.url).read
-          cache_html_files(html)
         end
-      else
-        html = open(self.url).read
+        @document = Hpricot(html)
       end
-      @document ||= Hpricot(html)
     rescue Exception => e
       attempts += 1
       if attempts > MAX_ATTEMPTS

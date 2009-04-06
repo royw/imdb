@@ -140,6 +140,16 @@ describe ImdbMovie do
       yaml.should =~ /year: "1989"/
     end
 
+    it "should be able to convert to and then from xml" do
+      hash = nil
+      begin
+        xml = @imdb_movie.to_xml
+        hash = XmlSimple.xml_in(xml)
+      rescue
+        hash = nil
+      end
+      hash.should_not be_nil
+    end
   end
 
   describe 'Han robado una estrella' do
