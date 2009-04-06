@@ -27,6 +27,7 @@ ImdbMovie Indiana Jones and the Last Crusade
 - should get the aspect ratio
 - should convert to xml
 - should convert to yaml
+- should be able to convert to and then from xml
 
 ImdbMovie Han robado una estrella
 - should query IMDB url
@@ -89,6 +90,6 @@ String unescape_html
 String strip_tags
 - should strip HTML tags
 
-Finished in 3.710128 seconds
+Finished in 4.131553 seconds
 
-64 examples, 0 failures
+65 examples, 0 failures
