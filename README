@@ -5,7 +5,6 @@ ImdbMovie Jet Pilot
 - should convert to yaml
 
 ImdbMovie Indiana Jones and the Last Crusade
-- should query IMDB url
 - should get the title
 - should get director(s)
 - should get the poster url
@@ -30,7 +29,6 @@ ImdbMovie Indiana Jones and the Last Crusade
 - should be able to convert to and then from xml
 
 ImdbMovie Han robado una estrella
-- should query IMDB url
 - should get the title
 - should get director(s)
 - should not get the poster
@@ -45,9 +43,6 @@ ImdbMovie Han robado una estrella
 - should not get the color
 - should get the company
 - should not get any photos
-
-ImdbSearch search that returns multiple movies
-- should query IMDB url
 
 ImdbSearch search that returns multiple movies movies
 - should be a collection of ImdbMovie instances
@@ -80,7 +75,6 @@ ImdbSearch searches that match on AKA title "Meltdown" movies
 - should have only one movie from 1995
 
 ImdbMovie Indiana Jones and the Last Crusade
-- should query IMDB url
 - should get the image
 
 String unescape_html
@@ -90,6 +84,6 @@ String unescape_html
 String strip_tags
 - should strip HTML tags
 
-Finished in 4.131553 seconds
+Finished in 3.696984 seconds
 
-65 examples, 0 failures
+61 examples, 0 failures
