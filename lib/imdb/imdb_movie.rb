@@ -210,27 +210,23 @@ class ImdbMovie
 #     #document.at("div#tn15title h1").innerHTML.split('<span>').first.unescape_html rescue nil
 #   end
 
+  # Fetch the document with retry to handle the occasional glitches
+  def document
+    if @document.nil?
+      html = fetch(self.url)
+      @document = Hpricot(html)
+    end
+    @document
+  end
+
   MAX_ATTEMPTS = 3
   SECONDS_BETWEEN_RETRIES = 1.0
 
-  # Fetch the document with retry to handle the occasional glitches
-  def document
+  def fetch(page)
+    doc = nil
     attempts = 0
     begin
-      if @document.nil?
-        if ImdbMovie::use_html_cache
-          begin
-            filespec = self.url.gsub(/^http:\//, 'spec/samples').gsub(/\/$/, '.html')
-            html = open(filespec).read
-          rescue Exception
-            html = open(self.url).read
-            cache_html_files(html)
-          end
-        else
-          html = open(self.url).read
-        end
-        @document = Hpricot(html)
-      end
+      doc = read_page(page)
     rescue Exception => e
       attempts += 1
       if attempts > MAX_ATTEMPTS
@@ -240,21 +236,12 @@ class ImdbMovie
         retry
       end
     end
-    @document
+    doc
   end
 
-  # this is used to save imdb pages so they may be used by rspec
-  def cache_html_files(html)
-    begin
-      filespec = self.url.gsub(/^http:\//, 'spec/samples').gsub(/\/$/, '.html')
-      unless File.exist?(filespec)
-        puts "caching #{filespec}"
-        File.mkdirs(File.dirname(filespec))
-        File.open(filespec, 'w') { |f| f.puts html }
-      end
-    rescue Exception => eMsg
-      puts eMsg.to_s
-    end
+  def read_page(page)
+    puts "ImdbMovie::read_page"
+    open(page).read
   end
 
 end

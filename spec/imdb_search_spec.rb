@@ -1,4 +1,3 @@
-
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe ImdbSearch do
@@ -7,14 +6,14 @@ describe ImdbSearch do
 
     before(:each) do
       @imdb_search = ImdbSearch.new('indiana jones')
-      @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_search.html"))
-      ImdbMovie.stub!(:use_html_cache).and_return(true)
+#       @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_search.html"))
+#       ImdbMovie.stub!(:use_html_cache).and_return(true)
     end
 
-    it "should query IMDB url" do
-      @imdb_search.should_receive(:open).with("http://www.imdb.com/find?q=indiana+jones;s=tt").and_return(open("#{$samples_dir}/sample_search.html"))
-      @imdb_search.send(:document)
-    end
+#     it "should query IMDB url" do
+#       @imdb_search.should_receive(:open).with("http://www.imdb.com/find?q=indiana+jones;s=tt").and_return(open("#{$samples_dir}/sample_search.html"))
+#       @imdb_search.send(:document)
+#     end
 
     describe "movies" do
 

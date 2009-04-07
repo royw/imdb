@@ -86,7 +86,32 @@ class ImdbSearch
 
   def document
     filespec = "http://www.imdb.com/find?q=#{CGI::escape(@query)};s=tt"
-    @document ||= Hpricot(open(filespec).read)
+    @document ||= Hpricot(fetch(filespec))
+  end
+
+  MAX_ATTEMPTS = 3
+  SECONDS_BETWEEN_RETRIES = 1.0
+
+  def fetch(page)
+    doc = nil
+    attempts = 0
+    begin
+      doc = read_page(page)
+    rescue Exception => e
+      attempts += 1
+      if attempts > MAX_ATTEMPTS
+        raise
+      else
+        sleep SECONDS_BETWEEN_RETRIES
+        retry
+      end
+    end
+    doc
+  end
+
+  def read_page(page)
+    puts "ImdbSearch::read_page"
+    open(page).read
   end
 
   def parse_movies_from_document
