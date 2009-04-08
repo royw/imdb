@@ -240,7 +240,6 @@ class ImdbMovie
   end
 
   def read_page(page)
-    puts "ImdbMovie::read_page"
     open(page).read
   end
 

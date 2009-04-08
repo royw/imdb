@@ -110,7 +110,6 @@ class ImdbSearch
   end
 
   def read_page(page)
-    puts "ImdbSearch::read_page"
     open(page).read
   end
 

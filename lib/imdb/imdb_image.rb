@@ -39,7 +39,6 @@ class ImdbImage
   end
 
   def read_page(page)
-    puts "ImdbImage::read_page"
     open(page).read
   end
 
