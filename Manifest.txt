@@ -3,6 +3,7 @@ Manifest.txt
 README
 Rakefile
 lib/imdb/imdb_movie.rb
+lib/imdb/imdb_profile.rb
 lib/imdb/imdb_search.rb
 lib/imdb/imdb_image.rb
 lib/imdb.rb
