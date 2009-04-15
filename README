@@ -110,6 +110,6 @@ ImdbProfile
 - should load from a file if a :filespec option is passed and the file exists
 - should not load from a file if a :filespec option is passed and the file does not exists
 
-Finished in 9.20481 seconds
+Finished in 9.302841 seconds
 
 85 examples, 0 failures
