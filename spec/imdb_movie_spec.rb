@@ -80,7 +80,7 @@ describe ImdbMovie do
 
     it "should get the release date" do
       @imdb_movie.release_date.should be_an_instance_of(Date)
-      @imdb_movie.release_date.should == Date.new(1989, 6, 30)
+      @imdb_movie.release_date.to_s.should == Date.new(1989, 5, 24).to_s
     end
 
     it "should get the genres" do
