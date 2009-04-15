@@ -84,6 +84,32 @@ String unescape_html
 String strip_tags
 - should strip HTML tags
 
-Finished in 3.605632 seconds
+ImdbProfile
+- should find by imdb_id that is prefixed with a 'tt'
+- should find by imdb_id that is not prefixed with 'tt'
+- should find by single title
+- should find by multiple title
+- should find by multiple title embedded in arrays
+- should find by AKA title
+- should find multiple versions of The Alamo
+- should find the two versions of The Alamo that we are interested in
+- should find John Wayne's The Alamo by title with media year
+- should find John Lee Hancock's The Alamo by title with media year
+- should find John Wayne's The Alamo by title with production year
+- should find John Lee Hancock's The Alamo by title with production year
+- should find John Wayne's The Alamo by title with released year
+- should find John Lee Hancock's The Alamo by title with released year
+- should not find John Wayne's The Alamo by title with the media year off by a year
+- should find John Wayne's The Alamo by title with the production year off by a year
+- should find John Wayne's The Alamo by title with the released year off by a year
+- should not find John Wayne's The Alamo by title with the production year off by two years
+- should not find John Wayne's The Alamo by title with the released year off by two years
+- should be able to convert to xml and then from xml
+- should not create a file if a :filespec option is passed that is nil
+- should create a file if a :filespec option is passed
+- should load from a file if a :filespec option is passed and the file exists
+- should not load from a file if a :filespec option is passed and the file does not exists
 
-61 examples, 0 failures
+Finished in 9.20481 seconds
+
+85 examples, 0 failures
