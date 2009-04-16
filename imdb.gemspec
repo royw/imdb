@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{imdb}
-  s.version = "0.0.19"
+  s.version = "0.0.20"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Roy Wright"]
-  s.date = %q{2009-04-15}
+  s.date = %q{2009-04-16}
   s.email = %q{roy@wright.org}
   s.extra_rdoc_files = [
     "README"
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     "lib/imdb/imdb_movie.rb",
     "lib/imdb/imdb_profile.rb",
     "lib/imdb/imdb_search.rb",
+    "lib/imdb/optional_logger.rb",
     "lib/object_extensions.rb",
     "lib/string_extensions.rb",
     "spec/cache_extensions.rb",
