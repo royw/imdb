@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{imdb}
-  s.version = "0.0.20"
+  s.version = "0.0.21"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Roy Wright"]
@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
     "lib/imdb/imdb_profile.rb",
     "lib/imdb/imdb_search.rb",
     "lib/imdb/optional_logger.rb",
+    "lib/module_extensions.rb",
     "lib/object_extensions.rb",
     "lib/string_extensions.rb",
     "spec/cache_extensions.rb",
