@@ -213,7 +213,7 @@ class ImdbMovie
   # Fetch the document with retry to handle the occasional glitches
   def document
     if @document.nil?
-      html = fetch(self.url)
+      html = fetch(self.url.escape_unicode)
       @document = Hpricot(html)
     end
     @document
