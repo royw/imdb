@@ -5,8 +5,8 @@ require 'imdb'
 
 $samples_dir = File.dirname(__FILE__) + '/samples'
 
-require 'cache_extensions'
-CacheExtensions.attach_to_read_page_classes($samples_dir)
+require 'read_page_cache'
+ReadPageCache.attach_to_classes($samples_dir)
 
 Spec::Runner.configure do |config|
 
