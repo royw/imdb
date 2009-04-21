@@ -9,12 +9,12 @@ require 'hpricot'
 require 'chronic'
 require 'xmlsimple'
 
+# royw gems on github
+require 'roys_extensions'
+
+# local files
 require 'imdb/optional_logger'
 require 'imdb/imdb_search'
 require 'imdb/imdb_movie'
 require 'imdb/imdb_profile'
 require 'imdb/imdb_image'
-require 'module_extensions'
-require 'string_extensions'
-require 'file_extensions'
-require 'object_extensions'
