@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{imdb}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Roy Wright"]
-  s.date = %q{2009-04-20}
+  s.date = %q{2009-04-21}
   s.email = %q{roy@wright.org}
   s.extra_rdoc_files = [
     "README"
@@ -15,17 +15,12 @@ Gem::Specification.new do |s|
     "History.txt",
     "Rakefile",
     "VERSION.yml",
-    "lib/file_extensions.rb",
     "lib/imdb.rb",
     "lib/imdb/imdb_image.rb",
     "lib/imdb/imdb_movie.rb",
     "lib/imdb/imdb_profile.rb",
     "lib/imdb/imdb_search.rb",
     "lib/imdb/optional_logger.rb",
-    "lib/module_extensions.rb",
-    "lib/object_extensions.rb",
-    "lib/string_extensions.rb",
-    "spec/cache_extensions.rb",
     "spec/imdb_image_spec.rb",
     "spec/imdb_movie_spec.rb",
     "spec/imdb_profile_spec.rb",
@@ -59,7 +54,6 @@ Gem::Specification.new do |s|
   s.summary = %q{TODO}
   s.test_files = [
     "spec/imdb_movie_spec.rb",
-    "spec/cache_extensions.rb",
     "spec/spec_helper.rb",
     "spec/imdb_search_spec.rb",
     "spec/imdb_image_spec.rb",
@@ -72,8 +66,14 @@ Gem::Specification.new do |s|
     s.specification_version = 2
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<royw-roys_extensions>, [">= 0.0.2"])
+      s.add_runtime_dependency(%q<royw-read_page_cache>, [">= 0.0.1"])
     else
+      s.add_dependency(%q<royw-roys_extensions>, [">= 0.0.2"])
+      s.add_dependency(%q<royw-read_page_cache>, [">= 0.0.1"])
     end
   else
+    s.add_dependency(%q<royw-roys_extensions>, [">= 0.0.2"])
+    s.add_dependency(%q<royw-read_page_cache>, [">= 0.0.1"])
   end
 end
