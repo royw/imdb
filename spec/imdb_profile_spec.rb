@@ -173,6 +173,51 @@ describe "ImdbProfile" do
     profile.should be_nil
   end
 
+  it "should handle media year == nil" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :media_years => [nil])
+    profile.should_not == nil
+  end
+
+  it "should handle media year == 0" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :media_years => [0])
+    profile.should_not == nil
+  end
+
+  it "should handle media year == '0'" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :media_years => ['0'])
+    profile.should_not == nil
+  end
+
+  it "should handle production year == nil" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :production_years => [nil])
+    profile.should_not == nil
+  end
+
+  it "should handle media production == 0" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :production_years => [0])
+    profile.should_not == nil
+  end
+
+  it "should handle production year == '0'" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :production_years => ['0'])
+    profile.should_not == nil
+  end
+
+  it "should handle released year == nil" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :released_years => [nil])
+    profile.should_not == nil
+  end
+
+  it "should handle released year == 0" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :released_years => [0])
+    profile.should_not == nil
+  end
+
+  it "should handle released year == '0'" do
+    profile = ImdbProfile.first(:titles => ['National Treasure: Book of Secrets'], :released_years => ['0'])
+    profile.should_not == nil
+  end
+
   def get_temp_filename
     outfile = Tempfile.new('imdb_profile_spec', TMPDIR)
     filespec = outfile.path

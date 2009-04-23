@@ -161,9 +161,9 @@ class ImdbProfile
   # 5) released years plus/minus a year
   # 6) no years
   def self.lookup(titles, media_years, production_years, released_years)
-    media_years = media_years.collect{|y| y > 0 ? y : nil}.uniq.compact unless media_years.blank?
-    production_years = production_years.collect{|y| y > 0 ? y : nil}.uniq.compact unless production_years.blank?
-    released_years = released_years.collect{|y| y > 0 ? y : nil}.uniq.compact unless released_years.blank?
+    media_years = media_years.compact.collect{|y| y.to_i > 0 ? y : nil}.uniq.compact unless media_years.blank?
+    production_years = production_years.compact.collect{|y| y.to_i > 0 ? y : nil}.uniq.compact unless production_years.blank?
+    released_years = released_years.compact.collect{|y| y.to_i > 0 ? y : nil}.uniq.compact unless released_years.blank?
     idents = []
     year_sets = []
     year_sets << media_years unless media_years.blank?
