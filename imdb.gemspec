@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{imdb}
-  s.version = "0.1.5"
+  s.version = "0.1.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Roy Wright"]
-  s.date = %q{2009-04-22}
+  s.date = %q{2009-04-24}
   s.email = %q{roy@wright.org}
   s.extra_rdoc_files = [
     "README"
@@ -43,8 +43,7 @@ Gem::Specification.new do |s|
     "spec/samples/www.imdb.com/find?q=indiana+jones;s=tt",
     "spec/samples/www.imdb.com/find?q=some+extremely+specific+search+for+indiana+jones;s=tt",
     "spec/samples/www.imdb.com/rg/action-box-title/primary-photo/media/rm1203608832/tt0097576",
-    "spec/spec_helper.rb",
-    "spec/string_extensions_spec.rb"
+    "spec/spec_helper.rb"
   ]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/royw/imdb}
@@ -57,7 +56,6 @@ Gem::Specification.new do |s|
     "spec/spec_helper.rb",
     "spec/imdb_search_spec.rb",
     "spec/imdb_image_spec.rb",
-    "spec/string_extensions_spec.rb",
     "spec/imdb_profile_spec.rb"
   ]
 
