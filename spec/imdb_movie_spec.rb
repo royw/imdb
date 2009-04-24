@@ -10,7 +10,6 @@ describe ImdbMovie do
     end
 
     it "should query IMDB url" do
-#       @imdb_movie.should_receive(:open).with("http://www.imdb.com/title/tt0050562/").and_return(open("#{$samples_dir}/sample_jet_pilot.html"))
       @imdb_movie.should_receive(:fetch).with("http://www.imdb.com/title/tt0050562/").and_return(open("#{$samples_dir}/www.imdb.com/title/tt0050562.html"))
       @imdb_movie.send(:document)
     end
@@ -31,13 +30,7 @@ describe ImdbMovie do
 
     before(:each) do
       @imdb_movie = ImdbMovie.new('0097576')
-#       @imdb_movie.stub!(:open).and_return(open("#{$samples_dir}/sample_movie.html"))
     end
-
-#     it "should query IMDB url" do
-#       @imdb_movie.should_receive(:open).with("http://www.imdb.com/title/tt0097576/").and_return(open("#{$samples_dir}/www.imdb.com/title/tt0097576.html"))
-#       @imdb_movie.send(:document)
-#     end
 
     it "should get the title" do
       @imdb_movie.title.should == "Indiana Jones and the Last Crusade"
@@ -157,14 +150,7 @@ describe ImdbMovie do
 
     before(:each) do
       @imdb_movie = ImdbMovie.new('0054961')
-#       @imdb_movie.stub!(:open).and_return(open("#{$samples_dir}/sample_incomplete_movie.html"))
     end
-
-#     it "should query IMDB url" do
-#       @imdb_movie.should_receive(:open).with("http://www.imdb.com/title/tt0054961/").and_return(open("#{$samples_dir}/sample_incomplete_movie.html"))
-#       @imdb_movie.should_receive(:open).with("http://www.imdb.com/title/tt0054961/").and_return(open("#{$samples_dir}/www.imdb.com/title/tt0054961.html"))
-#       @imdb_movie.send(:document)
-#     end
 
     it "should get the title" do
       @imdb_movie.title.should == "Han robado una estrella"

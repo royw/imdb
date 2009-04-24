@@ -6,14 +6,7 @@ describe ImdbSearch do
 
     before(:each) do
       @imdb_search = ImdbSearch.new('indiana jones')
-#       @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_search.html"))
-#       ImdbMovie.stub!(:use_html_cache).and_return(true)
     end
-
-#     it "should query IMDB url" do
-#       @imdb_search.should_receive(:open).with("http://www.imdb.com/find?q=indiana+jones;s=tt").and_return(open("#{$samples_dir}/sample_search.html"))
-#       @imdb_search.send(:document)
-#     end
 
     describe "movies" do
 
@@ -71,24 +64,6 @@ describe ImdbSearch do
 
   end
 
-  describe 'searches with potential encoding issues' do
-
-    before(:each) do
-      @imdb_search = ImdbSearch.new('torrente')
-      @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_spanish_search.html"))
-      ImdbMovie.stub!(:use_html_cache).and_return(true)
-    end
-
-    describe "movies" do
-
-      # it "should include 'Misión en Marbella'" do
-      #   @imdb_search.movies.map { |m| m.title }.should include('Misión en Marbella')
-      # end
-
-    end
-
-  end
-
   describe 'searches that match on AKA title' do
 
     before(:each) do
@@ -115,23 +90,24 @@ describe ImdbSearch do
 
   end
 
-  # this is the failure test for AKA matching
-  describe 'searches that match on AKA title but without search_aka enabled' do
-    before(:each) do
-      @imdb_search = ImdbSearch.new('Who Am I?', false)
-      @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_who_am_i_search.html"))
-      ImdbMovie.stub!(:use_html_cache).and_return(true)
-    end
-
-    describe "movies" do
-
-      it "should have multiple movies" do
-        @imdb_search.movies.size.should > 1
+  describe "failure test for AKA matching" do
+    describe 'searches that match on AKA title but without search_aka enabled' do
+      before(:each) do
+        @imdb_search = ImdbSearch.new('Who Am I?', false)
+        @imdb_search.stub!(:open).and_return(open("#{$samples_dir}/sample_who_am_i_search.html"))
+        ImdbMovie.stub!(:use_html_cache).and_return(true)
       end
 
-      it "should have no movies from 1998 because title is an aka" do
-        films = @imdb_search.movies.select{|m| m.year.to_i == 1998}
-        films.length.should == 0
+      describe "movies" do
+
+        it "should have multiple movies" do
+          @imdb_search.movies.size.should > 1
+        end
+
+        it "should have no movies from 1998 because title is an aka" do
+          films = @imdb_search.movies.select{|m| m.year.to_i == 1998}
+          films.length.should == 0
+        end
       end
     end
   end
